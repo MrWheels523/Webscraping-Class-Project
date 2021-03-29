@@ -9,10 +9,17 @@ def google_search():
     for i in search(query, tld="com", num = 10, stop=10, pause=2):
         print(i)
 def translator():
-    language = Translator(from_lang="English", to_lang="Spanish")
-    word = input("What word would like to translate in Spanish?")
-    translated_word = language.translate(word)
-    print(translated_word)
+    language_preference = input("What language would you like to translate Spanish or English?")
+    if language_preference == "English":
+        language = Translator(from_lang="English", to_lang="Spanish")
+        word = input("What word would like to translate to Spanish?")
+        translated_word = language.translate(word)
+        print(translated_word)
+    elif language_preference == "Spanish":
+        language_user = Translator(from_lang="Spanish", to_lang="English")
+        English = input("What word would like to translate to English?")
+        translated = language_user.translate(English)
+        print(translated)
 
 def synonyms():
     i = 1
