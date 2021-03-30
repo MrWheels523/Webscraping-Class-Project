@@ -36,6 +36,24 @@ def synonyms():
             user_word = found_word['href']
             print(str(i) + "." +  user_word.replace('/browse/', " "))
             i += 1
+def computer():
+    i = 1
+    computer_part = input("Type in what computer part you want to research.")
+    url = "https://www.newegg.com/p/pl?d="+ computer_part + ""
+    compute = uReq(url)
+    html_read = compute.read()
+    compute.close()
+    parts = soup(html_read, "html.parser")
+    computers = parts.findAll("div", {"class" : "item-container"})
+    for cpu in computers:
+        gpu = cpu.findAll("a", {"class" : "item-title"})
+        cli = gpu[0].text
+        print()
+        print(str(i) + "." + cli)
+        i += 1
+       
+        
+    
 def main(): 
     '''
     Displays commands that the
@@ -50,6 +68,7 @@ def main():
         print("command 3 - Weather")
         print("command 4 - Fun Fact")
         print("command 5 - Translator from English to Spanish")
+        print("command 6 - Computer Parts Research")
         print("exit - to exit the program")
         userChoice = input("\nPlease enter a command: ").lower()
         print()
@@ -63,6 +82,8 @@ def main():
             fun_fact()
         elif userChoice == "5":
             translator()
+        elif userChoice == "6":
+            computer()
         
 if __name__ == "__main__":
     main()  
