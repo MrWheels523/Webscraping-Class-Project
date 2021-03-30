@@ -6,9 +6,12 @@ from translate import Translator
 import re
 def google_search():
     """Google search query."""
+    i = 1
     query = input("Search query:")
-    for i in search(query, tld="com", num = 10, stop=10, pause=2):
-        print(i)
+    for google_search in search(query, tld="com", num = 10, stop=10, pause=2):
+        print(str(i) + "." + google_search)
+        i += 1
+        
 def translator():
     """Ask a user for a word ad translate that word from
     English to Spanish or Spanish to English."""
@@ -24,7 +27,7 @@ def translator():
         translated = language_user.translate(English)
         print(translated)
     else:
-        print("Sorry no lnaguage besides English or Spanish can translate another word.")
+        print("Sorry no language besides English or Spanish can translate another word.")
 
 def synonyms():
     """Ask the user on what word they want to use to see what other associated words are to that word."""
@@ -56,11 +59,9 @@ def computer():
         gpu = cpu.findAll("a", {"class" : "item-title"})
         cli = gpu[0].text
         print()
-        print(str(i) + "." + cli)
+        print(str(i) + ". " + cli)
         i += 1
-       
         
-    
 def main(): 
     '''
     Displays commands that the
@@ -92,5 +93,6 @@ def main():
         elif userChoice == "6":
             computer()
     print("Bye.")
+    
 if __name__ == "__main__":
     main()  
