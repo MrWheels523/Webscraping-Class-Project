@@ -61,7 +61,7 @@ def computer():
         gpu = cpu.findAll("a", {"class" : "item-title"})
         cli = gpu[0].text
         price = cpu.find("li", {"class" : "price-current"})
-        print("\nItem: "+ cli + "\nPrice: " + price.text)
+        print(str(i) + "." + " Item: "+ cli + "\nPrice: " + price.text)
         i += 1
 
 def weather():
