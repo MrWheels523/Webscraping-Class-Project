@@ -4,6 +4,7 @@ from prettyprinter import pprint
 from googlesearch import search
 from translate import Translator
 import re
+
 def google_search():
     """Google search query."""
     i = 1
@@ -60,9 +61,7 @@ def computer():
         gpu = cpu.findAll("a", {"class" : "item-title"})
         cli = gpu[0].text
         price = cpu.find("li", {"class" : "price-current"})
-#         print(price.text)
-# #         print()
-        print("\nItem: "+ cli + "\nPrice: " + price.text.strip())
+        print("\nItem: "+ cli + "\nPrice: " + price.text)
         i += 1
 
 def weather():
@@ -71,14 +70,12 @@ def weather():
     hail = uReq(weather_url)
     html_url = hail.read()
     hail.close()
-    ice_rain = soup(html_url, "html.parser")
-    snow = ice_rain.findAll("div", {"class" : "panel-group weather-panel-group"})                
-    for weather in snow:            
-        for rain in weather.findAll("div", {"class": "col-sm-6 col-xs-12"}):
-            rain_2 = rain.text
-            print(rain_2)
-            print()
-        
+    hot = soup(html_url, "html.parser")
+    snow = hot.find("div", {"class": "panel-group weather-panel-group"})
+    for snow_fall in snow.findAll("div", {"class" : "weather-index-time"}):
+        print(snow_fall.text)
+        for snow_rain in snow.findAll("div", {"class" : "col-sm-6 col-xs-12"}):
+            print(snow_rain.text)
 def main(): 
     '''
     Displays commands that the
@@ -112,4 +109,4 @@ def main():
     print("Bye.")
     
 if __name__ == "__main__":
-    main()  
+    main() 
