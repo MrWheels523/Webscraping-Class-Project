@@ -45,6 +45,7 @@ def synonyms():
             user_word = found_word['href']
             print(str(i) + "." +  user_word.replace('/browse/', " "))
             i += 1
+            
 def computer():
     """Ask the user on what computer part that they want to research about and display that product."""
     i = 1
@@ -58,9 +59,25 @@ def computer():
     for cpu in computers:
         gpu = cpu.findAll("a", {"class" : "item-title"})
         cli = gpu[0].text
-        print()
-        print(str(i) + ". " + cli)
+        price = cpu.find("li", {"class" : "price-current"})
+#         print(price.text)
+# #         print()
+        print("\nItem: "+ cli + "\nPrice: " + price.text.strip())
         i += 1
+
+def weather():
+    zip_code = input("What is your zip code to look up the weather?")
+    weather_url = "https://www.estesparknews.com/weather/?weather_zip=" + zip_code + ""
+    hail = uReq(weather_url)
+    html_url = hail.read()
+    hail.close()
+    ice_rain = soup(html_url, "html.parser")
+    snow = ice_rain.findAll("div", {"class" : "panel-group weather-panel-group"})                
+    for weather in snow:            
+        for rain in weather.findAll("div", {"class": "col-sm-6 col-xs-12"}):
+            rain_2 = rain.text
+            print(rain_2)
+            print()
         
 def main(): 
     '''
