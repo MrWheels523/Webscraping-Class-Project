@@ -17,12 +17,12 @@ def translator():
     """Ask a user for a word ad translate that word from
     English to Spanish or Spanish to English."""
     language_preference = input("What language would you like to translate Spanish or English?")
-    if language_preference == "English":
+    if language_preference.lower() == "English".lower():
         language = Translator(from_lang="English", to_lang="Spanish")
         word = input("What word would like to translate to Spanish?")
         translated_word = language.translate(word)
         print(translated_word)
-    elif language_preference == "Spanish":
+    elif language_preference.lower() == "Spanish".lower():
         language_user = Translator(from_lang="Spanish", to_lang="English")
         English = input("What word would like to translate to English?")
         translated = language_user.translate(English)
