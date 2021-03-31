@@ -66,16 +66,14 @@ def computer():
 
 def weather():
     zip_code = input("What is your zip code to look up the weather?")
-    weather_url = "https://www.estesparknews.com/weather/?weather_zip=" + zip_code + ""
+    weather_url = "https://www.estesparknews.com/weather/?mode=week&weather_zip=" + zip_code + ""
     hail = uReq(weather_url)
     html_url = hail.read()
     hail.close()
     hot = soup(html_url, "html.parser")
-    snow = hot.find("div", {"class": "panel-group weather-panel-group"})
-    for snow_fall in snow.findAll("div", {"class" : "weather-index-time"}):
-        print(snow_fall.text)
-        for snow_rain in snow.findAll("div", {"class" : "col-sm-6 col-xs-12"}):
-            print(snow_rain.text)
+    for cold_2 in hot.findAll("div", {"class": "weather-panel-details"}):
+        print(cold_2.text)
+
 def main(): 
     '''
     Displays commands that the
