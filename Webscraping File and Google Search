@@ -71,6 +71,9 @@ def weather():
     html_url = hail.read()
     hail.close()
     hot = soup(html_url, "html.parser")
+    print()
+    location = hot.find("h3", {"class" :"weather-title"})
+    print(location.text)
     for cold_2 in hot.findAll("div", {"class": "weather-panel-details"}):
         print(cold_2.text)
 
