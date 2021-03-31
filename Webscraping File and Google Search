@@ -57,6 +57,7 @@ def fun_fact():
     many_facts = soup(awesome, "html.parser")
     title = many_facts.find("h1", {"class" : "post-title center-block"})
     print(title.text)
+    print()
     fun_facts = many_facts.findAll("div", {"class": "title"})
     data = random.choice(fun_facts)
     for data_1 in data:
