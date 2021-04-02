@@ -101,6 +101,8 @@ def weather():
         print("Low Temperature: ", low_temp.text, "\nDetails", details.text)
         for cold in hot.findAll("div", {"class": "weather-panel-details"}):
             print(cold.text)
+       
+
     
 
         
