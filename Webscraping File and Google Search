@@ -49,7 +49,7 @@ def synonyms():
             print(str(i) + "." +  user_word.replace('/browse/', " "))
             i += 1
 def fun_fact():
-    i =0
+    i = 1
     fact = "https://bestlifeonline.com/random-fun-facts/"
     fun = uReq(fact)
     awesome = fun.read()
@@ -81,18 +81,29 @@ def computer():
         i += 1
 
 def weather():
+    next_days = []
+    result = {}
     zip_code = input("What is your zip code to look up the weather?")
     weather_url = "https://www.estesparknews.com/weather/?mode=week&weather_zip=" + zip_code + ""
     hail = uReq(weather_url)
     html_url = hail.read()
     hail.close()
     hot = soup(html_url, "html.parser")
-    print()
     location = hot.find("h3", {"class" :"weather-title"})
     print(location.text)
-    for cold in hot.findAll("div", {"class": "weather-panel-details"}):
-        print(cold.text)
+    print()
+    for locate in hot.findAll("div", {"class" : "weather-index-week-container"}):
+        day_name = locate.find("div", {"class" : "weather-index-time col-sm-1 col-xs-2 opacity-change"})
+        high_temp = locate.find("div", {"class" : "high-temp"})
+        low_temp = locate.find("div", {"class" : "low-temp"})
+        details = locate.find("div", {"class": "col-sm-6 col-xs-12"})
+        print(day_name.text, "\nHigh Temperature:", high_temp.text)
+        print("Low Temperature: ", low_temp.text, "\nDetails:", details.text)
+        for cold in hot.findAll("div", {"class": "weather-panel-details"}):
+            print(cold.text)
+    
 
+        
 def main(): 
     '''
     Displays commands that the
