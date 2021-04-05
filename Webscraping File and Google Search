@@ -8,13 +8,12 @@ import random
 
 def google_search():
     """Google search query."""
-    
     i = 1
     query = input("Search query:")
     for google_search in search(query, tld="com", num = 10, stop=10, pause=2):
         print(str(i) + "." + google_search)
         i += 1
-        
+    
 def translator():
     """Ask a user for a word ad translate that word from
     English to Spanish or Spanish to English."""
@@ -49,6 +48,7 @@ def synonyms():
             print(str(i) + "." +  user_word.replace('/browse/', " "))
             i += 1
 def fun_fact():
+    """Shows a random fact to a user once they type in the command."""
     i = 1
     fact = "https://bestlifeonline.com/random-fun-facts/"
     fun = uReq(fact)
@@ -81,6 +81,7 @@ def computer():
         i += 1
 
 def weather():
+    """Shows the weather format for that day."""
     next_days = []
     result = {}
     zip_code = input("What is your zip code to look up the weather?")
