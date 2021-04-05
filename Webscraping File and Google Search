@@ -1,3 +1,8 @@
+# Google Search Website: https://www.geeksforgeeks.org/performing-google-search-using-python-code/
+# Translate https://www.tutorialspoint.com/python_text_processing/python_text_translation.htm
+# Computer Search https://www.youtube.com/watch?v=XQgXKtPSzUI
+# Synoyms https://stackoverflow.com/questions/43814754/python-beautifulsoup-how-to-get-href-attribute-of-a-element/43814994
+# Weather https://www.thepythoncode.com/article/extract-weather-data-python
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen as uReq
 from prettyprinter import pprint
