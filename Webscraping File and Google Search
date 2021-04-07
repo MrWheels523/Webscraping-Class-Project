@@ -91,6 +91,7 @@ def computer():
     
 
 def weather():
+"""Shows the weather format for that day."""
     next_days = []
     result = {}
     zip_code = input("What is your zip code to look up the weather?")
