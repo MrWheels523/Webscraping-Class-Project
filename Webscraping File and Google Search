@@ -54,7 +54,7 @@ def synonyms():
                 user_word = found_word['href']
                 print(str(i) + "." +  user_word.replace('/browse/', " "))
                 i += 1
-    except HTTPError as e:
+    except HTTPError:
         print("Please enter a valid word.")
 
 def fun_fact():
@@ -91,7 +91,6 @@ def computer():
     
 
 def weather():
-"""Shows the weather format for that day."""
     next_days = []
     result = {}
     zip_code = input("What is your zip code to look up the weather?")
