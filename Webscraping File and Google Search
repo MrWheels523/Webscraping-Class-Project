@@ -7,9 +7,10 @@
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen as uReq
 from urllib.error import HTTPError
+from googlesearch import search
 import requests
 import re
-import random 
+import random
 
 def google_search():
     """Google search query."""
@@ -314,6 +315,3 @@ def main():
     
 if __name__ == "__main__":
      main()
-
-
-
