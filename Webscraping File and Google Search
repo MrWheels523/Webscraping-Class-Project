@@ -3,105 +3,262 @@
 # Computer Search https://www.youtube.com/watch?v=XQgXKtPSzUI
 # Synoyms https://stackoverflow.com/questions/43814754/python-beautifulsoup-how-to-get-href-attribute-of-a-element/43814994
 # Weather https://www.thepythoncode.com/article/extract-weather-data-python
+
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen as uReq
-from prettyprinter import pprint
-from googlesearch import search
-from translate import Translator
 from urllib.error import HTTPError
+import requests
 import re
 import random 
 
 def google_search():
     """Google search query."""
-    i = 1
-    query = input("Search query:")
-    for google_search in search(query, tld="com", num = 10, stop=10, pause=2):
-        print(str(i) + "." + google_search)
-        i += 1
-    
+    google_search = input("What does the user want to search?")
+    search = 'https://google.com/search?q=' + google_search
+    request = requests.get(search)
+    word = soup(request.text, "html.parser")
+    object_search = word.findAll('h3')
+    for searches in object_search:
+        print(searches.getText())
 def translator():
-    """Ask a user for a word ad translate that word from
-    English to Spanish or Spanish to English."""
-    language_preference = input("What language would you like to translate Spanish or English?")
-    if language_preference.lower() == "English".lower():
-        language = Translator(from_lang="English", to_lang="Spanish")
-        word = input("What word would like to translate to Spanish?")
-        translated_word = language.translate(word)
-        print(translated_word)
-    elif language_preference.lower() == "Spanish".lower():
-        language_user = Translator(from_lang="Spanish", to_lang="English")
-        English = input("What word would like to translate to English?")
-        translated = language_user.translate(English)
-        print(translated)
-    else:
-        print("Sorry no language besides English or Spanish can translate your word.")
-
-def synonyms():
-    """Ask the user on what word they want to use to see what other associated words are to that word."""
-    i = 1
-    find_word = []
-    word = input("Type in word for synonyms:")
+    """Spanish To English 
+    or English to Spanish"""
+    
+    # getting input from user
+    string = input("Please enter an enlgish or spanish phrase: ")
+    
+    # converting string to a format the website can read it in
+    
+    if " " in string:
+        string = string.replace(" ","%20")
+    
+    
     try:
-        my_url = "https://www.thesaurus.com/browse/"+ word + ""
+        # downloading url with customized url based
+        # on user's input
+        my_url = "https://www.spanishdict.com/translate/" + string 
+
         client = uReq(my_url)
         html = client.read()
         client.close()
-        letter = soup(html, "html.parser")
-        word_search = letter.findAll("div", {"class" : "css-16lv1yi e1qo4u831"})
-        for find_word in word_search:
-            for found_word in find_word.findAll("a", {"class": "css-1kg1yv8 eh475bn0", "class" : "css-1gyuw4i eh475bn0", 'href' : True}):
-                user_word = found_word['href']
-                print(str(i) + "." +  user_word.replace('/browse/', " "))
-                i += 1
-    except HTTPError:
-        print("Please enter a valid word.")
+        translation = soup(html, "html.parser")
+    except:
+        print("Connection Error. Please try again.")
+
+    
+    phrase1 = translation.findAll("div", {"id" : "quickdef1-en"})
+    phrase2 = translation.findAll("div", {"class" : "translation--1KLLZbXF translationDesktop--2LS7s-8u"})
+    
+    print(my_url)
+    print(phrase1)
+    print(phrase2)
+    
+    if phrase1 == []:
+        print(phrase1[0].text)
+    else:
+        print(phrase2[0].text)
+    
+    print(phrase[0].text)
+        
+
+def synonyms():
+    """Ask the user on what word they want 
+    to use to see what other associated words 
+    are to that word."""
+    valid = False
+    
+    while valid == False:
+        # counter
+        i = 1
+        find_word = []
+        word = input("Type in word for synonyms: ")
+        print("Retrieving synonyms...\n")
+
+        # scrapes browser and searches for synonyms
+        try:
+            my_url = "https://www.thesaurus.com/browse/"+ word + ""
+            client = uReq(my_url)
+            html = client.read()
+            client.close()
+            letter = soup(html, "html.parser")
+            word_search = letter.findAll("div", {"class" : "css-16lv1yi e1qo4u831"})
+            
+            # Displaying results 
+            for find_word in word_search:
+                for found_word in find_word.findAll("a", {"class": "css-1kg1yv8 eh475bn0", "class" : "css-1gyuw4i eh475bn0", 'href' : True}):
+                    user_word = found_word['href']
+                    print(str(i) + "." +  user_word.replace('/browse/', " "))
+                    i += 1
+                    
+            valid = True
+        except HTTPError:
+            print("Please enter a valid word.")
 
 def fun_fact():
+    """
+    Displays a random fun fact to the user!
+    """
+    print("Retrieving a fun fact...")
+    
+    # counter
     i = 1
+    
+    # fun fact url
     fact = "https://bestlifeonline.com/random-fun-facts/"
+    
+    # downloads url
     fun = uReq(fact)
+    
+    # reads the url
     awesome = fun.read()
+    
+    # closes url
     fun.close()
+    
+    # reads the html format of url and stores it 
+    # in many_facts
     many_facts = soup(awesome, "html.parser")
+    
     title = many_facts.find("h1", {"class" : "post-title center-block"})
-    print(title.text)
-    print()
+    print(title.text + "\n")
+    
+    # finds all the fun facts
     fun_facts = many_facts.findAll("div", {"class": "title"})
-    data = random.choice(fun_facts)
-    for data_1 in data:
-        print(data_1)
+    
+    # converts all fun facts to text format
+    fun_facts_text = []
+    for fun_fact in fun_facts:
+        fun_facts_text.append(fun_fact.text)
+    
+    # chooses a random fun fact
+    data = random.choice(fun_facts_text)
+    
+    print(data)
         
 def computer():
-    """Ask the user on what computer part that they want to research about and display that product."""
-    i = 1
-    computer_part = input("Type in what computer part you want to research.")
-    url = "https://www.newegg.com/p/pl?d="+ computer_part + ""
-    compute = uReq(url)
-    html_read = compute.read()
-    compute.close()
-    parts = soup(html_read, "html.parser")
-    computers = parts.findAll("div", {"class" : "item-container"})
-    for cpu in computers:
-        gpu = cpu.findAll("a", {"class" : "item-title"})
-        cli = gpu[0].text
-        price = cpu.find("li", {"class" : "price-current"})
-        print(str(i) + "." + " Item: "+ cli + "\nPrice: " + price.text)
-        i += 1
+    """Ask the user what computer part 
+    that they want to research about and 
+    display that product."""
     
+    try:
+        computer_part = input("Please type in any computer part: ")
+        print("Retrieving parts data...\n")
 
-def weather():
-    next_days = []
-    result = {}
-    zip_code = input("What is your zip code to look up the weather?")
-    weather_url = "https://www.estesparknews.com/weather/?mode=week&weather_zip=" + zip_code + ""
-    hail = uReq(weather_url)
-    html_url = hail.read()
-    hail.close()
-    hot = soup(html_url, "html.parser")
-    location = hot.find("h3", {"class" :"weather-title"})
-    print(location.text)
+        # Incase the user types a space
+        # we cannot have an empty space in the website url
+        if " " in computer_part:
+            computer_part = computer_part.replace(" ","+")
+
+        # new url based on user's input
+        url = "https://www.newegg.com/p/pl?d="+ computer_part + ""
+        downloaded_url = uReq(url)
+
+        # stores website in html_read 
+        html_read = downloaded_url.read()
+
+        downloaded_url.close()
+    except:
+        print("Connection Error. Please try again.")
+
+    # converts html_read to a readable format
+    website = soup(html_read, "html.parser")
+
+    # gets the title of all the possible parts on page
+    item = website.findAll("a", {"class" : "item-title"})
+    itemPrice = website.findAll("div", {"class" : "item-action"})
+
+    # prompts user to enter to choose how many items they would
+    # like to display
+
+    try:
+        if len(item) == 0:
+            print("There were no items for " + computer_part + ".")
+            itemsToDisplay = 0
+        else:
+            valid = False
+            while valid == False:
+                print("There are " + str(len(item)) + " items to be displayed.")
+                itemsToDisplay = int(input("How many items would you like to display? "))
+
+                if itemsToDisplay < 0 or itemsToDisplay > len(item):
+                    print("\nThe number is not in range.")
+                    print("Please enter a number between 0 and " + str(len(item)) + ".")
+                else:
+                    valid = True
+
+    except:
+        print("Please enter a number.")
+
+    # new line
     print()
+
+    # displays information
+    counter = 0
+    while counter != itemsToDisplay:
+
+        print("ITEM TITLE: " + item[counter].text.strip() + "\n" +
+              "ITEM PRICE: " + itemPrice[counter].text.strip() + "\n")
+
+        # increments counter
+        counter += 1
+
+    
+def weather():
+    """
+    Asks the user their zip code
+    and displays the weather in
+    that area.
+    """
+    valid = False
+
+    while valid == False:
+        try:
+            # initializes a list and a dictionary
+            next_days = []
+            result = {}
+
+            # Getting input from user
+            zip_code = input("Please enter your zip code: ")
+            print("Retrieving weather data...")
+
+            if " " in zip_code:
+                zip_code = zip_code.replace(" ","+")
+
+            # creates the url
+            weather_url = "https://www.estesparknews.com/weather/?mode=week&weather_zip=" + zip_code + ""
+
+            # Downloads the information in the url
+            hail = uReq(weather_url)
+
+            # reads the information
+            html_url = hail.read()
+
+            # closes the url
+            hail.close()
+
+        except:
+            print("Connection Error. Please try again. ")
+
+            # ends the function
+            valid = True
+
+        # converting url to html 
+        hot = soup(html_url, "html.parser")
+
+        # getting location from the zip code
+        location = hot.find("h3", {"class" :"weather-title"})
+        location = location.text.strip()
+
+        # Checks to see if zip code is valid    
+        if location == 'Invalid Location':
+            print("Please enter a valid zip code: ")
+        else:
+            valid = True
+
+        # new line
+        print()
+
+    # Displays information
     for locate in hot.findAll("div", {"class" : "weather-index-week-container"}):
         day_name = locate.find("div", {"class" : "weather-index-time col-sm-1 col-xs-2 opacity-change"})
         high_temp = locate.find("div", {"class" : "high-temp"})
@@ -115,38 +272,45 @@ def weather():
 
     
 
-        
 def main(): 
     '''
     Displays commands that the
     user can access within the program
     '''
-    
-    userChoice = ' '
+    userChoice = ''
+
     while userChoice != 'exit':
-        print()
-        print("command 1 - Google Search")
-        print("command 2 - Synonyms")
-        print("command 3 - Weather")
-        print("command 4 - Fun Fact")
-        print("command 5 - Translator from English to Spanish")
-        print("command 6 - Computer Parts Research")
-        print("exit - to exit the program")
-        userChoice = input("\nPlease enter a command: ").lower()
-        print()
-        if userChoice == "1":
+
+        print("\nCommand 1 - Google Search (Search google!)")
+        print("Command 2 - Synonyms (Displays similar words!)")
+        print("Command 3 - Weather")
+        print("Command 4 - Fun Fact (Displays a random fun fact)")
+        print("Command 5 - Translator (English to Spanish / vice versa")
+        print("Command 6 - Newegg (search for computer parts)")
+        print("Exit - to exit the program")
+
+        userChoice = input("Please enter a command: ")
+        
+        if userChoice == "1" or userChoice == "google search":
             google_search()
-        elif userChoice == "2":
+        elif userChoice == "2" or userChoice == "synonyms":
             synonyms()
-        elif userChoice == "3":
+        elif userChoice == "3" or userChoice == "weather":
              weather()
-        elif userChoice == "4":
+        elif userChoice == "4" or userChoice == "fun fact":
             fun_fact()
-        elif userChoice == "5":
+        elif userChoice == "5" or userChoice == "translator":
             translator()
-        elif userChoice == "6":
+        elif userChoice == "6" or userChoice == "newegg":
             computer()
-    print("Bye.")
+        else:
+            print("Please enter a valid command!\n")
+
+    print("\nThank you for using " +
+    "our program!")
     
 if __name__ == "__main__":
-    main() 
+     main()
+
+
+
