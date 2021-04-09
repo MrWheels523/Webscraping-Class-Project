@@ -7,12 +7,19 @@
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen as uReq
 from urllib.error import HTTPError
+import requests
 import re
 import random 
 
 def google_search():
     """Google search query."""
-    
+    google_search = input("What does the user want to search?")
+    search = 'https://google.com/search?q=' + google_search
+    request = requests.get(search)
+    word = soup(request.text, "html.parser")
+    object_search = word.findAll('h3')
+    for searches in object_search:
+        print(searches.getText())
 def translator():
     """Spanish To English 
     or English to Spanish"""
@@ -304,5 +311,6 @@ def main():
     
 if __name__ == "__main__":
      main()
+
 
 
