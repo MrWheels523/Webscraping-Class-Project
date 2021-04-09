@@ -18,6 +18,8 @@ def google_search():
     if google_search == " ":
         print("Sorry not a valid search.")
     else:
+        print("Gettting Google Searches...")
+        print()
         search = 'https://google.com/search?q=' + google_search
         request = requests.get(search)
         word = soup(request.text, "html.parser")
