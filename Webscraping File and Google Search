@@ -285,7 +285,7 @@ def main():
     '''
     userChoice = ''
 
-    while userChoice != 'exit':
+    while userChoice.lower() != 'exit':
 
         print("\nCommand 1 - Google Search (Search google!)")
         print("Command 2 - Synonyms (Displays similar words!)")
