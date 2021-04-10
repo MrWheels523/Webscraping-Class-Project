@@ -7,19 +7,25 @@
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen as uReq
 from urllib.error import HTTPError
+from googlesearch import search
 import requests
 import re
-import random 
+import random
 
 def google_search():
     """Google search query."""
     google_search = input("What does the user want to search?")
-    search = 'https://google.com/search?q=' + google_search
-    request = requests.get(search)
-    word = soup(request.text, "html.parser")
-    object_search = word.findAll('h3')
-    for searches in object_search:
-        print(searches.getText())
+    if google_search == " ":
+        print("Sorry not a valid search.")
+    else:
+        print("Gettting Google Searches...")
+        print()
+        search = 'https://google.com/search?q=' + google_search
+        request = requests.get(search)
+        word = soup(request.text, "html.parser")
+        object_search = word.findAll('h3')
+        for searches in object_search:
+            print(searches.getText())
 def translator():
     """Spanish To English 
     or English to Spanish"""
@@ -279,7 +285,7 @@ def main():
     '''
     userChoice = ''
 
-    while userChoice != 'exit':
+    while userChoice.lower() != 'exit':
 
         print("\nCommand 1 - Google Search (Search google!)")
         print("Command 2 - Synonyms (Displays similar words!)")
@@ -288,9 +294,9 @@ def main():
         print("Command 5 - Translator (English to Spanish / vice versa")
         print("Command 6 - Newegg (search for computer parts)")
         print("Exit - to exit the program")
-
+        print()
         userChoice = input("Please enter a command: ")
-        
+        print()
         if userChoice == "1" or userChoice == "google search":
             google_search()
         elif userChoice == "2" or userChoice == "synonyms":
@@ -305,12 +311,11 @@ def main():
             computer()
         else:
             print("Please enter a valid command!\n")
+    
+        userChoice = input("Please enter a command: ")
 
     print("\nThank you for using " +
     "our program!")
     
 if __name__ == "__main__":
      main()
-
-
-
