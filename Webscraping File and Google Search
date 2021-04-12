@@ -304,6 +304,7 @@ def main():
         print()
         userChoice = input("Please enter a command: ")
         print()
+        
         if userChoice == "1" or userChoice == "google search":
             google_search()
         elif userChoice == "2" or userChoice == "synonyms":
@@ -318,8 +319,6 @@ def main():
             computer()
         else:
             print("Please enter a valid command!\n")
-    
-        userChoice = input("Please enter a command: ")
 
     print("\nThank you for using " +
     "our program!")
