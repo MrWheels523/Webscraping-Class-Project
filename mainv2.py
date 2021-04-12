@@ -13,19 +13,39 @@ import re
 import random
 
 def google_search():
-    """Google search query."""
-    google_search = input("What does the user want to search?")
-    if google_search == " ":
-        print("Sorry not a valid search.")
+    i = 1
+    session = requests.Session()
+
+    # optional
+    session.headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.61 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.5',
+    'Referer': 'https://www.google.com'
+        }
+
+    # hard code
+    search = input("Bing search: ")
+
+    print("loading search...\n")
+
+    url = ('https://www.bing.com/search?q=' + search)
+    webpage = session.get(url)
+
+    if webpage.ok == True:
+        html = soup(webpage.text,"html.parser")
+
+        text = html.findAll('li',{'class':'b_algo'})
+
+        for texts in text:
+            print(str(i) + "." + texts.h2.text)
+            print(texts.h2.a.get("href"))
+            print()
+            i += 1
+
     else:
-        print("Gettting Google Searches...")
-        print()
-        search = 'https://google.com/search?q=' + google_search
-        request = requests.get(search)
-        word = soup(request.text, "html.parser")
-        object_search = word.findAll('h3')
-        for searches in object_search:
-            print(searches.getText())
+        print("Could not load webpage!")
+            
 def translator():
     """Spanish To English 
     or English to Spanish"""
@@ -48,23 +68,12 @@ def translator():
         html = client.read()
         client.close()
         translation = soup(html, "html.parser")
+        phrase2 = translation.find("a", {"class" : "neodictTranslation--2vd6M2gR"})
+        for word in phrase2:
+            print(word)
     except:
         print("Connection Error. Please try again.")
 
-    
-    phrase1 = translation.findAll("div", {"id" : "quickdef1-en"})
-    phrase2 = translation.findAll("div", {"class" : "translation--1KLLZbXF translationDesktop--2LS7s-8u"})
-    
-    print(my_url)
-    print(phrase1)
-    print(phrase2)
-    
-    if phrase1 == []:
-        print(phrase1[0].text)
-    else:
-        print(phrase2[0].text)
-    
-    print(phrase[0].text)
         
 
 def synonyms():
@@ -297,6 +306,7 @@ def main():
         print()
         userChoice = input("Please enter a command: ")
         print()
+        
         if userChoice == "1" or userChoice == "google search":
             google_search()
         elif userChoice == "2" or userChoice == "synonyms":
@@ -311,8 +321,6 @@ def main():
             computer()
         else:
             print("Please enter a valid command!\n")
-    
-        userChoice = input("Please enter a command: ")
 
     print("\nThank you for using " +
     "our program!")
