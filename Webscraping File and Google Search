@@ -13,6 +13,7 @@ import re
 import random
 
 def google_search():
+    i = 1
     session = requests.Session()
 
     # optional
@@ -37,9 +38,10 @@ def google_search():
         text = html.findAll('li',{'class':'b_algo'})
 
         for texts in text:
-            print(texts.h2.text)
+            print(str(i) + "." + texts.h2.text)
             print(texts.h2.a.get("href"))
             print()
+            i += 1
 
     else:
         print("Could not load webpage!")
