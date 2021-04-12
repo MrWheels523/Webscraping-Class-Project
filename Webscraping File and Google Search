@@ -12,7 +12,7 @@ import requests
 import re
 import random
 
-def google_search():
+def bing_search():
     i = 1
     session = requests.Session()
 
@@ -296,7 +296,7 @@ def main():
 
     while userChoice.lower() != 'exit':
 
-        print("\nCommand 1 - Google Search (Search google!)")
+        print("\nCommand 1 - Bing Search (Search bing!)")
         print("Command 2 - Synonyms (Displays similar words!)")
         print("Command 3 - Weather")
         print("Command 4 - Fun Fact (Displays a random fun fact)")
@@ -307,8 +307,8 @@ def main():
         userChoice = input("Please enter a command: ")
         print()
         
-        if userChoice == "1" or userChoice == "google search":
-            google_search()
+        if userChoice == "1" or userChoice == "bing search":
+            bing_search()
         elif userChoice == "2" or userChoice == "synonyms":
             synonyms()
         elif userChoice == "3" or userChoice == "weather":
