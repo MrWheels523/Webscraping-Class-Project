@@ -283,8 +283,19 @@ def weather():
         print("Low Temperature: ", low_temp.text, "\nDetails", details.text)
         for cold in hot.findAll("div", {"class": "weather-panel-details"}):
             print(cold.text)
-       
-
+            
+def famous_quotes():
+    url_to_search = "https://www.inc.com/sujan-patel/101-inspiring-quotes-from-the-most-successful-people-in-history.html"
+    find = uReq(url_to_search)
+    search = find.read()
+    find.close()
+    inspiration = soup(search, "html.parser")
+    quote = inspiration.findAll("div", {"class": "standardText"})
+    famous_quotes = []
+    for inspiration_quote in quote:
+        famous_quotes.append(inspiration_quote.text)
+    famous = random.choice(famous_quotes)
+    print(famous)
     
 
 def main(): 
@@ -296,12 +307,13 @@ def main():
 
     while userChoice.lower() != 'exit':
 
-        print("\nCommand 1 - Bing Search (Search bing!)")
-        print("Command 2 - Synonyms (Displays similar words!)")
-        print("Command 3 - Weather")
-        print("Command 4 - Fun Fact (Displays a random fun fact)")
-        print("Command 5 - Translator (English to Spanish / vice versa")
-        print("Command 6 - Newegg (search for computer parts)")
+        print("\nType '1' or type 'bing search' - Bing Search (Search bing!)")
+        print("Type '2' or type 'synonyms'- Synonyms (Displays similar words!)")
+        print("Type '3' or type 'weather' for Weather")
+        print("Type '4' or type 'fun fact' Fun Fact (Displays a random fun fact)")
+        print("Type '5' or type 'translator' - Translator (English to Spanish / vice versa")
+        print("Type '6' or type 'newegg'- Newegg (search for computer parts)")
+        print("Type '7' or type 'famous quotes'- Newegg (search for computer parts)")
         print("Exit - to exit the program")
         print()
         userChoice = input("Please enter a command: ")
@@ -319,6 +331,8 @@ def main():
             translator()
         elif userChoice == "6" or userChoice == "newegg":
             computer()
+        elif userChoice == "7" or userChoice == "famous quotes":
+            famous_quotes()
         else:
             print("Please enter a valid command!\n")
 
